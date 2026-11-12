@@ -150,17 +150,23 @@ internal fun LyricsLine(
     val itemModifier = modifier
         .fillMaxWidth()
         .onSizeChanged { onSizeChanged(it.height) }
-        .clip(RoundedCornerShape(8.dp))
+        .let {
+            if (isActiveLine) {
+                it.glassCard(cornerRadius = 16.dp)
+            } else {
+                it.clip(RoundedCornerShape(8.dp))
+            }
+        }
         .combinedClickable(
             onClick = onClick,
             onLongClick = onLongClick
         )
-        .background(if (isSelected && isSelectionModeActive) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else Color.Transparent)
+        .background(if (isSelected && isSelectionModeActive) Color(0xFFFF4D00).copy(alpha = 0.3f) else Color.Transparent)
         .padding(
             start = when (lyricsTextPosition) { LyricsPosition.LEFT, LyricsPosition.RIGHT -> 11.dp; LyricsPosition.CENTER -> 24.dp },
             end = when (lyricsTextPosition) { LyricsPosition.LEFT, LyricsPosition.RIGHT -> 11.dp; LyricsPosition.CENTER -> 24.dp },
-            top = if (item.isBackground) 0.dp else 12.dp,
-            bottom = if (item.isBackground) 2.dp else 12.dp // simplified gap logic
+            top = if (item.isBackground) 4.dp else 12.dp,
+            bottom = if (item.isBackground) 4.dp else 12.dp
         )
 
     val agentAlignment = when {
@@ -214,7 +220,7 @@ internal fun LyricsLine(
                 } else inactiveAlpha
                 
                 val animatedAlpha by animateFloatAsState(targetAlpha, tween(250), label = "lyricsLineAlpha")
-                val lineColor = expressiveAccent.copy(alpha = if (item.isBackground) focusedAlpha else animatedAlpha)
+                val lineColor = if (isActiveLine) Color.White else Color.White.copy(alpha = 0.4f)
                 
                 val romanizedTextState by item.romanizedTextFlow.collectAsStateWithLifecycle()
                 val isRomanizedAvailable = romanizedTextState != null
