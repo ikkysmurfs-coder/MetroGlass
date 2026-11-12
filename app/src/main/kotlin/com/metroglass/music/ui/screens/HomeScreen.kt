@@ -147,6 +147,7 @@ import com.metroglass.music.ui.component.SongListItem
 import com.metroglass.music.ui.component.SpeedDialGridItem
 import com.metroglass.music.ui.component.YouTubeGridItem
 import com.metroglass.music.ui.component.YouTubeListItem
+import com.metroglass.music.ui.component.glassCard
 import com.metroglass.music.ui.component.shimmer.GridItemPlaceHolder
 import com.metroglass.music.ui.component.shimmer.ShimmerHost
 import com.metroglass.music.ui.component.shimmer.TextPlaceholder
@@ -218,25 +219,16 @@ fun CommunityPlaylistCard(
     val isDark = isSystemInDarkTheme()
     val artistNameAliases = LocalArtistNameAliases.current
 
-    val containerColor =
-        if (isDark) {
-            MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-        } else {
-            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        }
-
     val dbPlaylist by database.playlistByBrowseId(item.playlist.id).collectAsStateWithLifecycle(initialValue = null)
     val isBookmarked = dbPlaylist?.playlist?.bookmarkedAt != null
 
-    Card(
+    androidx.compose.material3.Surface(
         modifier =
             modifier
                 .width(320.dp)
-                .height(420.dp),
-        colors =
-            CardDefaults.cardColors(
-                containerColor = containerColor,
-            ),
+                .height(420.dp)
+                .glassCard(cornerRadius = 28.dp),
+        color = Color.Transparent,
         shape = RoundedCornerShape(28.dp),
         onClick = onClick,
     ) {
@@ -518,11 +510,11 @@ fun DailyDiscoverCard(
     val song = dailyDiscover.recommendation as? SongItem
     val playsString = stringResource(R.string.plays)
 
-    Card(
+    androidx.compose.material3.Surface(
         modifier =
             modifier
                 .fillMaxSize()
-                .clip(RoundedCornerShape(28.dp))
+                .glassCard(cornerRadius = 28.dp)
                 .combinedClickable(
                     onClick = onClick,
                     onLongClick = {
@@ -537,10 +529,7 @@ fun DailyDiscoverCard(
                         }
                     },
                 ),
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            ),
+        color = Color.Transparent,
         shape = RoundedCornerShape(28.dp),
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -1375,15 +1364,14 @@ fun HomeScreen(
                 if (selectedChip == null) {
                     item(key = "wrapped_card") {
                         AnimatedVisibility(visible = shouldShowWrappedCard) {
-                            Card(
+                            androidx.compose.material3.Surface(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
-                                        .padding(16.dp),
-                                colors =
-                                    CardDefaults.cardColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                                    ),
+                                        .padding(16.dp)
+                                        .glassCard(cornerRadius = 28.dp),
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(28.dp),
                             ) {
                                 Box(
                                     modifier =

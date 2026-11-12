@@ -108,6 +108,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import com.metroglass.music.ui.component.Icon as MIcon
+import com.metroglass.music.ui.component.glassCard
 import androidx.compose.ui.draw.blur
 import com.metroglass.music.constants.MiniPlayerBackgroundStyle
 import com.metroglass.music.constants.MiniPlayerBackgroundStyleKey
@@ -376,12 +377,10 @@ private fun NewMiniPlayer(
         Box(
             modifier =
                 Modifier
-                    .then(if (isTabletLandscape) Modifier.width(500.dp).align(Alignment.Center) else Modifier.fillMaxWidth())
+                    .then(if (isTabletLandscape) Modifier.width(500.dp).align(Alignment.Center) else Modifier.fillMaxWidth().padding(horizontal = 16.dp))
                     .height(64.dp)
                     .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
-                    .clip(RoundedCornerShape(32.dp))
-                    .background(color = backgroundColor)
-                    .border(1.dp, outlineColor.copy(alpha = 0.3f), RoundedCornerShape(32.dp))
+                    .glassCard(cornerRadius = 32.dp)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = LocalIndication.current,
