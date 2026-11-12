@@ -65,6 +65,7 @@ import com.metroglass.music.constants.SearchSourceKey
 import com.metroglass.music.db.entities.SearchHistory
 import com.metroglass.music.playback.queues.YouTubeQueue
 import com.metroglass.music.ui.component.HideOnScrollFAB
+import com.metroglass.music.ui.component.glassCard
 import com.metroglass.music.utils.SearchRoutes
 import com.metroglass.music.utils.rememberEnumPreference
 import com.metroglass.music.utils.rememberPreference
@@ -181,7 +182,11 @@ fun SearchScreen(
             TopAppBar(
                 title = {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 12.dp)
+                            .glassCard(cornerRadius = 28.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         BasicTextField(

@@ -259,28 +259,27 @@ inline fun ListItem(
     isActive: Boolean = false,
     isAvailable: Boolean = true,
 ) {
+    val baseModifier = modifier
+        .fillMaxWidth()
+        .padding(vertical = 4.dp, horizontal = 8.dp)
+        .glassCard(cornerRadius = 24.dp)
+        .padding(8.dp)
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = if (isActive) {
-            modifier // playing highlight
-                .height(ListItemHeight)
-                .padding(horizontal = 8.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(
-                    color = // selected active
-                        if (isSelected == true) MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
-                        else MaterialTheme.colorScheme.secondaryContainer
-                )
+            baseModifier.background(
+                color = if (isSelected == true) Color(0xFFFF4D00).copy(alpha = 0.3f)
+                else Color(0xFFFF4D00).copy(alpha = 0.15f),
+                shape = RoundedCornerShape(24.dp)
+            )
         } else if (isSelected == true) {
-            modifier // inactive selected
-                .height(ListItemHeight)
-                .padding(horizontal = 8.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color = MaterialTheme.colorScheme.inversePrimary.copy(alpha = 0.4f))
+            baseModifier.background(
+                color = Color(0xFFFF4D00).copy(alpha = 0.2f),
+                shape = RoundedCornerShape(24.dp)
+            )
         } else {
-            modifier // default
-                .height(ListItemHeight)
-                .padding(horizontal = 8.dp)
+            baseModifier
         }
     ) {
         Box(
@@ -411,12 +410,16 @@ fun GridItem(
     Column(
         modifier = if (fillMaxWidth) {
             modifier
-                .padding(12.dp)
+                .padding(8.dp)
                 .fillMaxWidth()
+                .glassCard(cornerRadius = 24.dp)
+                .padding(12.dp)
         } else {
             modifier
-                .padding(12.dp)
+                .padding(8.dp)
                 .width(gridHeight * thumbnailRatio)
+                .glassCard(cornerRadius = 24.dp)
+                .padding(12.dp)
         }
     ) {
         BoxWithConstraints(

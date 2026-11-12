@@ -7,11 +7,21 @@ package com.metroglass.music.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -71,3 +81,59 @@ fun GlassCard(
         content = content
     )
 }
+
+@Composable
+fun GlassButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    cornerRadius: Dp = 28.dp,
+    isSelected: Boolean = false,
+    content: @Composable RowScope.() -> Unit
+) {
+    val isDark = isSystemInDarkTheme()
+    val accentColor = Color(0xFFFF4D00)
+    
+    val bg = if (isSelected) {
+        accentColor.copy(alpha = 0.25f)
+    } else if (isDark) {
+        Color(0x14FFFFFF)
+    } else {
+        Color(0x0F000000)
+    }
+    
+    val borderCol = if (isSelected) {
+        accentColor
+    } else if (isDark) {
+        Color(0x1FFFFFFF)
+    } else {
+        Color(0x1A000000)
+    }
+
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(cornerRadius))
+            .background(bg)
+            .border(1.dp, borderCol, RoundedCornerShape(cornerRadius))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content
+    )
+}
+
+@Composable
+fun GlassChip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    GlassButton(
+        onClick = onClick,
+        modifier = modifier,
+        cornerRadius = 24.dp,
+        isSelected = selected,
+        content = content
+    )
+}
+
